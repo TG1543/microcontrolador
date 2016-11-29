@@ -1,0 +1,127 @@
+000     @SCRATCH
+001     @SCRATCH
+001     _RETURN_
+002     @SCRATCH
+003     @SCRATCH
+004-005 __DYNAMIC_HEAD
+006-007 samples
+008     time_of_chart
+009     run_time
+00A     voltage
+00B     charts
+00C     current_chart
+00D-00E i
+00F-012 get_value_adc.value
+00F     value
+00F-010 set_off_all_pines.dac_pin
+00F     @delay_us1.P1
+00F-010 @PRINTF_LU_9600_31766_31767.P2
+00F     init.@SCRATCH1
+00F     MAIN.@SCRATCH1
+010     @PRINTF_U_9600_31766_31767.P1
+010     @delay_ms1.P2
+010     init.@SCRATCH2
+011     set_off_all_pines.pin
+011     @PRINTF_U_9600_31766_31767.P1
+011     @PRINTF_LU_9600_31766_31767.@SCRATCH1
+012     set_dac_a0.state
+012     @DIV88.P1
+012     set_cin1.state
+012     set_dac_clr.state
+012     set_dac_wr.state
+012     set_cin3.state
+012     set_cin2.state
+012     set_off_all_pines.@SCRATCH1
+012     @PRINTF_LU_9600_31766_31767.@SCRATCH2
+013     @DIV88.P1
+013-014 get_value_adc.i
+013     set_off_all_pines.@SCRATCH2
+013     @PRINTF_LU_9600_31766_31767.@SCRATCH3
+014     @WRITEBITA.P1
+014     @DIV88.@SCRATCH1
+014     @PRINTF_LU_9600_31766_31767.@SCRATCH4
+015     @WRITEBITA.P1
+015     get_value_adc.@SCRATCH1
+015     @PRINTF_LU_9600_31766_31767.@SCRATCH5
+016-017 @WRITEBITA.P1
+016     @PRINTF_LU_9600_31766_31767.@SCRATCH6
+017     @PRINTF_LU_9600_31766_31767.@SCRATCH7
+F83     PSP_DATA
+FB4.6   C1OUT
+FB4.7   C2OUT
+FBB     CCP_2_LOW
+FBB     CCP_2
+FBC     CCP_2_HIGH
+FBE     CCP_1
+FBE     CCP_1_LOW
+FBF     CCP_1_HIGH
+FE1-FE2 @WRITE_PACKED_MEMORY.P1
+FE1-FE2 @READ_PACKED_MEMORY.P2
+FE9-FEA @READ_PROGRAM_MEMORY.P1
+FE9-FEA @READ_PACKED_MEMORY.P2
+FE9-FEA @WRITE_PROGRAM_MEMORY.P3
+FE9-FEA @MEMSET.P4
+FE9-FEA @WRITE_PACKED_MEMORY.P5
+FF6-FF8 @READ_PROGRAM_MEMORY.P1
+FF6-FF8 @WRITE_PROGRAM_MEMORY.P2
+
+ROM Allocation:
+0140  @delay_ms1
+032C  @delay_us1
+0376  @PUTCHARI_BIU_1
+0004  dac_pins
+0072  set_cin1
+0082  set_cin2
+0092  set_cin3
+00A2  set_dac_a0
+00B2  set_dac_clr
+00C0  set_dac_wr
+00CE  set_off_all_pines
+0034  @WRITEBITA
+034C  _setup_adc
+0166  init
+0412  print_setup
+037E  @DIV88
+03A6  @PRINTF_U_9600_31766_31767
+0470  comunication
+05E6  get_value_adc
+06E2  MAIN
+063C  @PRINTF_LU_9600_31766_31767
+06E2  @cinit
+
+
+User Memory space: 
+
+User Memory space: 
+
+Project Directory:
+    C:\Users\CPU-023\Documents\MPLAB\tg_uc1\tg_uc\
+
+Project Files:
+    main.c
+    ..\..\..\..\..\..\Program Files\PICC\devices\18f4680.h
+    ..\..\..\..\..\..\Program Files\PICC\drivers\stdlibm.h
+    ..\..\..\..\..\..\Program Files\PICC\drivers\stddef.h
+    ..\..\..\..\..\..\Program Files\PICC\drivers\memmgmt.c
+
+Units:
+    C:\Users\CPU-023\Documents\MPLAB\tg_uc1\tg_uc\main (main)
+
+Compiler Settings:
+    Processor:      PIC18F4680
+    Pointer Size:   16
+    ADC Range:      0-1023
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+
+Output Files:
+    Errors:      main.err
+    Ext Symbols: main.esym
+    INHX32:      main.hex
+    Symbols:     main.sym
+    List:        main.lst
+    Debug/COFF:  main.cof
+    Project:     main.PJT
+    Call Tree:   main.tre
+    Statistics:  main.sta

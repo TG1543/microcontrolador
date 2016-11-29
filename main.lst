@@ -1,0 +1,1295 @@
+CCS PCH C Compiler, Version 4.104, 5967               25-nov-16 07:18
+
+               Filename: C:\Users\CPU-023\Documents\MPLAB\tg_uc1\tg_uc\main.lst
+
+               ROM used: 1900 bytes (3%)
+                         Largest free fragment is 63636
+               RAM used: 14 (0%) at main() level
+                         24 (1%) worst case
+               Stack:    4 locations
+
+*
+00000:  GOTO   06E2
+.................... #include <18f4680.h> 
+.................... //////// Standard Header file for the PIC18F4680 device //////////////// 
+.................... #device PIC18F4680 
+.................... #list 
+....................  
+....................  
+.................... #device ADC=10 
+.................... #fuses NOWDT, HS, NODEBUG, BROWNOUT, NOLVP 
+.................... /*#use standard_io(A) 
+.................... #use standard_io(C) 
+.................... #use standard_io(B) 
+.................... #use standard_io(D)*/ 
+.................... #use delay(internal=32M) 
+*
+00140:  CLRF   FEA
+00142:  MOVLW  10
+00144:  MOVWF  FE9
+00146:  MOVF   FEF,W
+00148:  BZ    0164
+0014A:  MOVLW  0A
+0014C:  MOVWF  01
+0014E:  CLRF   00
+00150:  DECFSZ 00,F
+00152:  BRA    0150
+00154:  DECFSZ 01,F
+00156:  BRA    014E
+00158:  MOVLW  5F
+0015A:  MOVWF  00
+0015C:  DECFSZ 00,F
+0015E:  BRA    015C
+00160:  DECFSZ FEF,F
+00162:  BRA    014A
+00164:  RETLW  00
+*
+0032C:  MOVLW  02
+0032E:  SUBWF  0F,F
+00330:  BNC   0348
+00332:  CLRF   FEA
+00334:  MOVLW  0F
+00336:  MOVWF  FE9
+00338:  MOVF   FEF,W
+0033A:  BZ    0348
+0033C:  BRA    0344
+0033E:  BRA    0340
+00340:  BRA    0342
+00342:  NOP   
+00344:  DECFSZ FEF,F
+00346:  BRA    033E
+00348:  GOTO   0372 (RETURN)
+.................... #use rs232(baud=9600,parity=N,bits=8,xmit=PIN_C6,rcv=PIN_C7) 
+*
+00376:  BTFSS  F9E.4
+00378:  BRA    0376
+0037A:  MOVWF  FAD
+0037C:  RETLW  00
+....................  
+.................... #define on 1 
+.................... #define off 0 
+....................  
+....................  
+.................... #include <stdlibm.h> 
+.................... /////////////////////////////////////////////////////////////////////////// 
+.................... ////        (C) Copyright 1996,2003 Custom Computer Services           //// 
+.................... //// This source code may only be used by licensed users of the CCS C  //// 
+.................... //// compiler.  This source code may only be distributed to other      //// 
+.................... //// licensed users of the CCS C compiler.  No other use, reproduction //// 
+.................... //// or distribution is permitted without written permission.          //// 
+.................... //// Derivative programs created using this software in object code    //// 
+.................... //// form are not restricted in any way.                               //// 
+.................... /////////////////////////////////////////////////////////////////////////// 
+....................  
+....................  
+.................... /*********************************************************************/ 
+.................... #ifndef _STDLIBM 
+.................... #define _STDLIBM 
+.................... #USE DYNAMIC_MEMORY 
+.................... /* Memory Management Functions*/ 
+.................... #include <stddef.h> 
+.................... /////////////////////////////////////////////////////////////////////////// 
+.................... ////        (C) Copyright 1996,2003 Custom Computer Services           //// 
+.................... //// This source code may only be used by licensed users of the CCS C  //// 
+.................... //// compiler.  This source code may only be distributed to other      //// 
+.................... //// licensed users of the CCS C compiler.  No other use, reproduction //// 
+.................... //// or distribution is permitted without written permission.          //// 
+.................... //// Derivative programs created using this software in object code    //// 
+.................... //// form are not restricted in any way.                               //// 
+.................... /////////////////////////////////////////////////////////////////////////// 
+....................  
+.................... #ifndef _STDDEF 
+....................  
+.................... #define _STDDEF 
+....................  
+.................... #if sizeof(unsigned int8 *)==1 
+.................... #define ptrdiff_t unsigned int8 
+.................... #else 
+.................... #define ptrdiff_t unsigned int16 
+.................... #endif 
+....................  
+.................... #define size_t unsigned int8 
+.................... #define wchar_t char 
+.................... #define NULL 0 
+....................  
+.................... #define offsetof(s,f) (offsetofbit(s,f)/8) 
+....................  
+.................... #endif 
+....................  
+.................... #if defined(__PCB__) 
+.................... typedef struct nodet { 
+....................    unsigned int8 size; 
+....................    unsigned int8 next; }node_t; 
+.................... #elif defined(__PCM__) 
+.................... typedef struct nodet { 
+....................    unsigned int8 size; 
+....................    unsigned int16 next; }node_t; 
+.................... #elif defined(__PCH__) 
+.................... typedef struct nodet { 
+....................    unsigned int16 size; 
+....................    unsigned int16 next; }node_t; 
+.................... #elif defined(__PCD__) 
+.................... typedef struct nodet { 
+....................    unsigned int16 size; 
+....................    unsigned int16 next; }node_t; 
+.................... #endif 
+.................... #include <memmgmt.c> 
+.................... /////////////////////////////////////////////////////////////////////////// 
+.................... ////        (C) Copyright 1996,2003 Custom Computer Services           //// 
+.................... //// This source code may only be used by licensed users of the CCS C  //// 
+.................... //// compiler.  This source code may only be distributed to other      //// 
+.................... //// licensed users of the CCS C compiler.  No other use, reproduction //// 
+.................... //// or distribution is permitted without written permission.          //// 
+.................... //// Derivative programs created using this software in object code    //// 
+.................... //// form are not restricted in any way.                               //// 
+.................... /////////////////////////////////////////////////////////////////////////// 
+....................  
+.................... #if defined(__PCH__) 
+.................... node_t * create_node(long size,node_t *ptr ) // create node at given location 
+.................... { 
+....................    node_t *result; 
+....................    result =ptr; 
+....................    result->size=size; 
+....................    result->next = NULL; 
+....................    return result; 
+.................... } 
+.................... void update_node(node_t *node,long size) // update the size of given node 
+.................... { 
+....................    node->size=size; 
+.................... } 
+.................... #define csize 32768 
+.................... #define pos 15 
+.................... #else 
+.................... node_t * create_node(int size,node_t *ptr ) // create node at given location 
+.................... { 
+....................    node_t *result; 
+....................    result =ptr; 
+....................    result->size=size; 
+....................    result->next = NULL; 
+....................    return result; 
+.................... } 
+....................  
+.................... void update_node(node_t *node,int size)// update the size of given node 
+.................... { 
+....................    node->size=size; 
+.................... } 
+.................... #if defined(__PCD__) 
+....................    #define csize 32768 
+....................    #define pos 15 
+.................... #else 
+....................    #define csize 127 
+....................    #define pos 7 
+.................... #endif 
+.................... #endif 
+....................  
+.................... /* Insert node immediately after place */ //old,new 
+.................... void insert_node_after(node_t *place,node_t *node)// place the node after another given node 
+.................... { 
+....................     if (place->next==NULL) 
+....................        node->next= NULL; 
+....................     else 
+....................        node->next=place->next; 
+....................     place->next=node; 
+.................... } 
+....................  
+.................... ///////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+....................  
+.................... void remove_node(node_t *node) {// remove the given node from the memlist 
+....................    node_t *ptr; 
+....................    for(ptr=__DYNAMIC_HEAD;ptr->next!=node;ptr=ptr->next); 
+....................    ptr->next=node->next; 
+....................    node=NULL; 
+.................... } 
+....................  
+.................... ///////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+....................  
+.................... /* 
+.................... void print_list() { // print the current memlist 
+....................     node_t *node; 
+....................     printf( "\r\nThe list is \n\r"); 
+....................     for(node = __DYNAMIC_HEAD; node != NULL; node = node->next) 
+....................         printf( "%lx--%x--\n\r",node,node->size); 
+....................     printf( "size of node_t %u\r\n",sizeof(node_t)); 
+.................... } 
+.................... */ 
+....................  
+....................  
+....................  
+....................  
+.................... void traverse() 
+.................... { 
+....................    node_t *node,*temp; 
+....................    unsigned int16 nsize,nextsize; 
+....................    node=__DYNAMIC_HEAD; 
+....................    while(node!=NULL) 
+....................    { 
+....................      if(!bit_test(node->size,pos))// node free 
+....................       { 
+....................          nsize=node->size; 
+....................          temp=(unsigned int16)node->next; 
+....................          if(!bit_test(temp->size,pos)&& (temp==((unsigned int16)node+nsize+sizeof(node_t))))//next node free and consecutive, so combine 
+....................          { 
+....................             nextsize=temp->size; 
+....................             nsize+=nextsize+sizeof(node_t); 
+....................             remove_node(temp); 
+....................             update_node(node,nsize); 
+....................          } 
+....................          else 
+....................          node=node->next; 
+....................       } 
+....................       else 
+....................       node=node->next; 
+....................    } 
+.................... } 
+....................  
+.................... char *malloc(size_t size) 
+.................... { 
+....................    node_t *node,*new; 
+....................    unsigned int16 nsize; 
+....................    node=__DYNAMIC_HEAD; 
+....................    while(node!=NULL) // chk until end of memlist 
+....................    { 
+....................       if(!bit_test(node->size,pos) && node->size >=size) // node is free and > = req size 
+....................       { 
+....................          nsize=node->size; 
+....................          if(nsize>size +sizeof(node_t)) //node > req size, so split and add new node to memlist 
+....................          { 
+....................             new=create_node(nsize-size-sizeof(node_t),(unsigned int16)node+sizeof(node_t)+size); 
+....................             insert_node_after(node,new); 
+....................             update_node(node,size+csize); 
+....................          } 
+....................          else//not enough space for new node so use original size 
+....................          update_node(node,nsize+csize); 
+....................          //end if 
+....................          break; 
+....................       }//end if 
+....................       node=node->next; 
+....................    }//end while 
+....................    if(node==NULL)// reached end without finding an appropriate node 
+....................    { 
+....................       //prunsigned int8f("\r\n Not enough memory for allocation"); 
+....................       return NULL; 
+....................    } 
+....................    else 
+....................    return (char *)node+sizeof(node_t); // return pounsigned int8er to allocated space 
+.................... } 
+....................  
+.................... char *calloc(size_t nmemb,size_t size) 
+.................... { 
+....................    node_t *node,*new; 
+....................    unsigned int16 nsize,resize; 
+....................    node=__DYNAMIC_HEAD; 
+....................    resize=nmemb*size; 
+....................    while(node!=NULL) // chk until end of memlist 
+....................    { 
+....................       if(!bit_test(node->size,pos) && node->size >=resize)// node is free and > = req size 
+....................       { 
+....................          nsize=node->size; 
+....................          if(nsize>resize+sizeof(node_t))//node > req size, so split and add new node to memlist 
+....................          { 
+....................             new=create_node(nsize-resize-sizeof(node_t),(unsigned int16)node+sizeof(node_t)+resize); 
+....................             insert_node_after(node,new); 
+....................             update_node(node,resize+csize); 
+....................          } 
+....................          else//not enough space for new node so use original size 
+....................          update_node(node,nsize+csize); 
+....................          //end if 
+....................          break; 
+....................       }//end if 
+....................       node=node->next; 
+....................    }//end while 
+....................    if(node==NULL)// reached end without finding an appropriate node 
+....................    { 
+....................       //prunsigned int8f("\r\n Not enough memory for allocation"); 
+....................       return NULL; 
+....................    } 
+....................    else 
+....................    { 
+....................       memset((unsigned int16)node+sizeof(node_t),0,resize);// initialize to 0 
+....................       return (char *)(unsigned int16)node+sizeof(node_t);// return pounsigned int8er to allocated space 
+....................    } 
+.................... } 
+.................... void free( void * ptr) 
+.................... { 
+....................    node_t *node; 
+....................    unsigned int16 nsize; 
+....................  
+....................    if(ptr==NULL) // not a valid pounsigned int8er 
+....................       return; 
+....................    else 
+....................    { 
+....................       node=ptr-sizeof(node_t); 
+....................       if(bit_test(node->size,pos))// node occupied 
+....................       { 
+....................          nsize=node->size-csize; 
+....................          update_node(node,nsize); 
+....................          ptr=NULL; 
+....................  
+....................       } 
+....................       else // wrong input, return 
+....................       { 
+....................          ptr=NULL; 
+....................          return; 
+....................       } 
+....................    } 
+....................    traverse(); 
+.................... } 
+....................  
+.................... char *realloc(void *ptr,size_t size) 
+.................... { 
+....................    node_t *node,*new,*temp; 
+....................    unsigned int16 nsize,nextsize; 
+....................  
+....................    if(ptr==NULL)// null pounsigned int8er, so malloc the req memory 
+....................       malloc(size); 
+....................    else if(size==0) 
+....................    { 
+....................    free(ptr); 
+....................    } 
+....................    else 
+....................    { 
+....................       node=ptr-sizeof(node_t); 
+....................       if(bit_test(node->size,pos))// chk if valid pounsigned int8er 
+....................       { 
+....................          nsize=node->size-csize; 
+....................          temp=(unsigned int16)node->next; 
+....................          if(nsize>size)// block > req size 
+....................          { 
+....................         
+....................                if(!bit_test(temp->size,pos) && (temp==((unsigned int16)node+nsize+sizeof(node_t))))// next block free and consecutive 
+....................                { 
+....................                   update_node(node,size+csize); // update block 
+....................                   nextsize=temp->size; 
+....................                   remove_node(temp); 
+....................                   new=create_node(nextsize+(nsize-size),(unsigned int16)node+size+sizeof(node_t)); 
+....................                   insert_node_after(node,new); 
+....................                    
+....................  
+....................                } 
+....................                else if (nsize>size +sizeof(node_t))//node > req size, so split and add new node to memlist 
+....................                { 
+....................                   update_node(node,size+csize); // update block 
+....................                   new=create_node(nsize-size-sizeof(node_t),(unsigned int16)node+sizeof(node_t)+size); 
+....................                   insert_node_after(node,new); 
+....................                } 
+....................                else//not enough space for new node so use original size 
+....................                update_node(node,nsize+csize); // update block 
+....................  
+....................          } 
+....................          else // block < req size 
+....................          { 
+....................             if(!bit_test(temp->size,pos) && (temp==((unsigned int16)node+nsize+sizeof(node_t))))// next block free and consecutive 
+....................             { 
+....................                nextsize=temp->size; 
+....................                if(nextsize>=size-nsize) // next block >=difference 
+....................                { 
+....................                   if(nextsize>size-nsize+sizeof(node_t))//next node > req size, so split and add new node to memlist 
+....................                   { 
+....................                       update_node(node,size+csize);// update block 
+....................                       remove_node(temp); 
+....................                       new=create_node(nextsize-(size-nsize),(unsigned int16)node+size+sizeof(node_t)); 
+....................                       insert_node_after(node,new); 
+....................                   } 
+....................                   else//not enough space for new node in next node, so use original size 
+....................                   { 
+....................                       update_node(node,nsize+nextsize+csize);// update block 
+....................                       remove_node(temp); 
+....................                   } 
+....................                } 
+....................             } 
+....................          } 
+....................          return (char *)node+sizeof(node_t); // return pounsigned int8er to the reallocated block 
+....................       } 
+....................       else // not allocated use malloc 
+....................       { 
+....................          malloc(size); 
+....................          //return; 
+....................       } 
+....................    } 
+....................  } 
+.................... #ENDIF 
+....................  
+....................  
+.................... //Global				 
+.................... 							// bit menos significativo 
+.................... const long dac_pins[] = {	pin_b5,pin_b4,pin_b3,pin_b2, 
+.................... 							pin_b1,pin_b0,pin_d7,pin_d6, 
+.................... 							pin_d5,pin_d4,pin_c5,pin_c4, 
+.................... 							pin_d3,pin_d2,pin_d1,pin_d0};  
+.................... 												// bit más significativo 
+....................  
+.................... const signed long dac_max = 32767; 
+.................... const signed long dac_min = -32768; 
+.................... int *samples; 
+....................  
+.................... int time_of_chart;  
+.................... int run_time; 
+.................... int voltage; 
+.................... int charts; 
+.................... int current_chart; 
+....................  
+.................... //set pins of control 
+.................... void set_cin1(short state){output_bit(pin_a1,state);} 
+*
+00072:  MOVF   12,F
+00074:  BNZ   007A
+00076:  BCF    F89.1
+00078:  BRA    007C
+0007A:  BSF    F89.1
+0007C:  BCF    F92.1
+0007E:  GOTO   0128 (RETURN)
+.................... void set_cin2(short state){output_bit(pin_a3,state);} 
+00082:  MOVF   12,F
+00084:  BNZ   008A
+00086:  BCF    F89.3
+00088:  BRA    008C
+0008A:  BSF    F89.3
+0008C:  BCF    F92.3
+0008E:  GOTO   012C (RETURN)
+.................... void set_cin3(short state){output_bit(pin_a5,state);} 
+00092:  MOVF   12,F
+00094:  BNZ   009A
+00096:  BCF    F89.5
+00098:  BRA    009C
+0009A:  BSF    F89.5
+0009C:  BCF    F92.5
+0009E:  GOTO   0130 (RETURN)
+.................... void set_dac_a0(short state){output_bit(pin_c3,state);} 
+000A2:  MOVF   12,F
+000A4:  BNZ   00AA
+000A6:  BCF    F8B.3
+000A8:  BRA    00AC
+000AA:  BSF    F8B.3
+000AC:  BCF    F94.3
+000AE:  GOTO   0134 (RETURN)
+.................... void set_dac_clr(short state){output_bit(pin_c1,state);} 
+000B2:  MOVF   12,F
+000B4:  BNZ   00BA
+000B6:  BCF    F8B.1
+000B8:  BRA    00BC
+000BA:  BSF    F8B.1
+000BC:  BCF    F94.1
+000BE:  RETLW  00
+.................... void set_dac_wr(short state){output_bit(pin_c2,state);} 
+000C0:  MOVF   12,F
+000C2:  BNZ   00C8
+000C4:  BCF    F8B.2
+000C6:  BRA    00CA
+000C8:  BSF    F8B.2
+000CA:  BCF    F94.2
+000CC:  RETLW  00
+....................  
+.................... void set_off_all_pines(){ 
+000CE:  CLRF   10
+000D0:  MOVLW  01
+000D2:  MOVWF  0F
+000D4:  CLRF   11
+.................... 	long dac_pin = 1; 
+.................... 	int pin = 0; 
+.................... 	for ( pin  = 0; pin < 16; dac_pin*=2, ++pin){ 
+000D6:  CLRF   11
+000D8:  MOVF   11,W
+000DA:  SUBLW  0F
+000DC:  BNC   0124
+.................... 		output_bit(dac_pins[pin],off); 
+000DE:  BCF    FD8.0
+000E0:  RLCF   11,W
+000E2:  CLRF   03
+000E4:  MOVFF  FF2,12
+000E8:  BCF    FF2.7
+000EA:  RCALL  0004
+000EC:  TBLRD*+
+000EE:  MOVFF  FF5,03
+000F2:  BTFSC  12.7
+000F4:  BSF    FF2.7
+000F6:  MOVWF  12
+000F8:  MOVFF  03,13
+000FC:  MOVWF  14
+000FE:  CLRF   15
+00100:  MOVLW  0F
+00102:  MOVWF  17
+00104:  MOVLW  89
+00106:  MOVWF  16
+00108:  RCALL  0034
+0010A:  MOVFF  12,14
+0010E:  CLRF   15
+00110:  MOVLW  0F
+00112:  MOVWF  17
+00114:  MOVLW  92
+00116:  MOVWF  16
+00118:  RCALL  0034
+.................... 	} 
+0011A:  BCF    FD8.0
+0011C:  RLCF   0F,F
+0011E:  RLCF   10,F
+00120:  INCF   11,F
+00122:  BRA    00D8
+.................... 	set_cin1(off); 
+00124:  CLRF   12
+00126:  BRA    0072
+.................... 	set_cin2(off); 
+00128:  CLRF   12
+0012A:  BRA    0082
+.................... 	set_cin3(off); 
+0012C:  CLRF   12
+0012E:  BRA    0092
+.................... 	set_dac_a0(off); 
+00130:  CLRF   12
+00132:  BRA    00A2
+.................... 	set_dac_clr(off); 
+00134:  CLRF   12
+00136:  RCALL  00B2
+.................... 	set_dac_wr(off); 
+00138:  CLRF   12
+0013A:  RCALL  00C0
+.................... } 
+0013C:  GOTO   031A (RETURN)
+....................  
+.................... //functions 
+.................... void _setup_adc(){ 
+.................... 	setup_adc(ADC_CLOCK_INTERNAL); 
+*
+0034C:  MOVF   FC0,W
+0034E:  ANDLW  C0
+00350:  IORLW  07
+00352:  MOVWF  FC0
+00354:  BSF    FC0.7
+00356:  BSF    FC2.0
+.................... 	//setup_adc_ports(AN0 | VSS_VREF); 
+.................... 	setup_adc_ports(AN0); 
+00358:  MOVF   FC1,W
+0035A:  ANDLW  C0
+0035C:  IORLW  0E
+0035E:  MOVWF  FC1
+.................... 	set_adc_channel(0); 
+00360:  MOVLW  00
+00362:  MOVWF  01
+00364:  MOVF   FC2,W
+00366:  ANDLW  C3
+00368:  IORWF  01,W
+0036A:  MOVWF  FC2
+.................... 	delay_us(100); 
+0036C:  MOVLW  64
+0036E:  MOVWF  0F
+00370:  BRA    032C
+.................... } 
+00372:  GOTO   0746 (RETURN)
+....................  
+.................... //initialize the pic 
+.................... void init (){ 
+.................... 	//speed 
+.................... 	setup_oscillator(OSC_32MHZ); 
+*
+00166:  MOVLW  70
+00168:  MOVWF  FD3
+0016A:  MOVLW  40
+0016C:  MOVWF  F9B
+0016E:  MOVF   FD3,W
+.................... 	//Signals 
+.................... 	set_tris_a(0x01); 
+00170:  MOVLW  01
+00172:  MOVWF  F92
+.................... 	set_tris_b(0xc0); 
+00174:  MOVLW  C0
+00176:  MOVWF  F93
+.................... 	set_tris_c(0xc0); 
+00178:  MOVWF  F94
+.................... 	set_tris_d(0x00); 
+0017A:  MOVLW  00
+0017C:  MOVWF  F95
+.................... 	//setup of the device 
+.................... 	if (read_eeprom(0) != 1){ 
+0017E:  MOVFF  FF2,0F
+00182:  BCF    FF2.7
+00184:  CLRF   FAA
+00186:  CLRF   FA9
+00188:  BCF    FA6.6
+0018A:  BCF    FA6.7
+0018C:  BSF    FA6.0
+0018E:  MOVF   FA8,W
+00190:  BTFSC  0F.7
+00192:  BSF    FF2.7
+00194:  SUBLW  01
+00196:  BTFSC  FD8.2
+00198:  BRA    0296
+.................... 		write_eeprom(0,1); 
+0019A:  CLRF   FAA
+0019C:  CLRF   FA9
+0019E:  MOVLW  01
+001A0:  MOVWF  FA8
+001A2:  BCF    FA6.6
+001A4:  BCF    FA6.7
+001A6:  BSF    FA6.2
+001A8:  MOVF   FF2,W
+001AA:  MOVWF  00
+001AC:  BCF    FF2.7
+001AE:  MOVLB  F
+001B0:  MOVLW  55
+001B2:  MOVWF  FA7
+001B4:  MOVLW  AA
+001B6:  MOVWF  FA7
+001B8:  BSF    FA6.1
+001BA:  BTFSC  FA6.1
+001BC:  BRA    01BA
+001BE:  BCF    FA6.2
+001C0:  MOVF   00,W
+001C2:  IORWF  FF2,F
+.................... 		write_eeprom(1,10);	// voltage 
+001C4:  CLRF   FAA
+001C6:  MOVLW  01
+001C8:  MOVWF  FA9
+001CA:  MOVLW  0A
+001CC:  MOVWF  FA8
+001CE:  BCF    FA6.6
+001D0:  BCF    FA6.7
+001D2:  BSF    FA6.2
+001D4:  MOVFF  FF2,00
+001D8:  BCF    FF2.7
+001DA:  MOVLW  55
+001DC:  MOVWF  FA7
+001DE:  MOVLW  AA
+001E0:  MOVWF  FA7
+001E2:  BSF    FA6.1
+001E4:  BTFSC  FA6.1
+001E6:  BRA    01E4
+001E8:  BCF    FA6.2
+001EA:  MOVF   00,W
+001EC:  IORWF  FF2,F
+.................... 		write_eeprom(2,60); // time of chart  
+001EE:  CLRF   FAA
+001F0:  MOVLW  02
+001F2:  MOVWF  FA9
+001F4:  MOVLW  3C
+001F6:  MOVWF  FA8
+001F8:  BCF    FA6.6
+001FA:  BCF    FA6.7
+001FC:  BSF    FA6.2
+001FE:  MOVFF  FF2,00
+00202:  BCF    FF2.7
+00204:  MOVLW  55
+00206:  MOVWF  FA7
+00208:  MOVLW  AA
+0020A:  MOVWF  FA7
+0020C:  BSF    FA6.1
+0020E:  BTFSC  FA6.1
+00210:  BRA    020E
+00212:  BCF    FA6.2
+00214:  MOVF   00,W
+00216:  IORWF  FF2,F
+.................... 		write_eeprom(3,1);  // number of chart 
+00218:  CLRF   FAA
+0021A:  MOVLW  03
+0021C:  MOVWF  FA9
+0021E:  MOVLW  01
+00220:  MOVWF  FA8
+00222:  BCF    FA6.6
+00224:  BCF    FA6.7
+00226:  BSF    FA6.2
+00228:  MOVFF  FF2,00
+0022C:  BCF    FF2.7
+0022E:  MOVLW  55
+00230:  MOVWF  FA7
+00232:  MOVLW  AA
+00234:  MOVWF  FA7
+00236:  BSF    FA6.1
+00238:  BTFSC  FA6.1
+0023A:  BRA    0238
+0023C:  BCF    FA6.2
+0023E:  MOVF   00,W
+00240:  IORWF  FF2,F
+.................... 		write_eeprom(4,0);  // current chart 
+00242:  CLRF   FAA
+00244:  MOVLW  04
+00246:  MOVWF  FA9
+00248:  CLRF   FA8
+0024A:  BCF    FA6.6
+0024C:  BCF    FA6.7
+0024E:  BSF    FA6.2
+00250:  MOVFF  FF2,00
+00254:  BCF    FF2.7
+00256:  MOVLW  55
+00258:  MOVWF  FA7
+0025A:  MOVLW  AA
+0025C:  MOVWF  FA7
+0025E:  BSF    FA6.1
+00260:  BTFSC  FA6.1
+00262:  BRA    0260
+00264:  BCF    FA6.2
+00266:  MOVF   00,W
+00268:  IORWF  FF2,F
+.................... 		write_eeprom(5,24); // time of run 
+0026A:  CLRF   FAA
+0026C:  MOVLW  05
+0026E:  MOVWF  FA9
+00270:  MOVLW  18
+00272:  MOVWF  FA8
+00274:  BCF    FA6.6
+00276:  BCF    FA6.7
+00278:  BSF    FA6.2
+0027A:  MOVFF  FF2,00
+0027E:  BCF    FF2.7
+00280:  MOVLW  55
+00282:  MOVWF  FA7
+00284:  MOVLW  AA
+00286:  MOVWF  FA7
+00288:  BSF    FA6.1
+0028A:  BTFSC  FA6.1
+0028C:  BRA    028A
+0028E:  BCF    FA6.2
+00290:  MOVF   00,W
+00292:  IORWF  FF2,F
+00294:  MOVLB  0
+.................... 	} 
+.................... 	voltage = read_eeprom(1); 
+00296:  MOVFF  FF2,0F
+0029A:  BCF    FF2.7
+0029C:  CLRF   FAA
+0029E:  MOVLW  01
+002A0:  MOVWF  FA9
+002A2:  BCF    FA6.6
+002A4:  BCF    FA6.7
+002A6:  BSF    FA6.0
+002A8:  MOVF   FA8,W
+002AA:  BTFSC  0F.7
+002AC:  BSF    FF2.7
+002AE:  MOVWF  0A
+.................... 	time_of_chart = read_eeprom(2); 
+002B0:  MOVFF  FF2,0F
+002B4:  BCF    FF2.7
+002B6:  CLRF   FAA
+002B8:  MOVLW  02
+002BA:  MOVWF  FA9
+002BC:  BCF    FA6.6
+002BE:  BCF    FA6.7
+002C0:  BSF    FA6.0
+002C2:  MOVF   FA8,W
+002C4:  BTFSC  0F.7
+002C6:  BSF    FF2.7
+002C8:  MOVWF  08
+.................... 	charts = read_eeprom(3); 
+002CA:  MOVFF  FF2,0F
+002CE:  BCF    FF2.7
+002D0:  CLRF   FAA
+002D2:  MOVLW  03
+002D4:  MOVWF  FA9
+002D6:  BCF    FA6.6
+002D8:  BCF    FA6.7
+002DA:  BSF    FA6.0
+002DC:  MOVF   FA8,W
+002DE:  BTFSC  0F.7
+002E0:  BSF    FF2.7
+002E2:  MOVWF  0B
+.................... 	current_chart = read_eeprom(4); 
+002E4:  MOVFF  FF2,0F
+002E8:  BCF    FF2.7
+002EA:  CLRF   FAA
+002EC:  MOVLW  04
+002EE:  MOVWF  FA9
+002F0:  BCF    FA6.6
+002F2:  BCF    FA6.7
+002F4:  BSF    FA6.0
+002F6:  MOVF   FA8,W
+002F8:  BTFSC  0F.7
+002FA:  BSF    FF2.7
+002FC:  MOVWF  0C
+.................... 	run_time = read_eeprom(5); 
+002FE:  MOVFF  FF2,0F
+00302:  BCF    FF2.7
+00304:  CLRF   FAA
+00306:  MOVLW  05
+00308:  MOVWF  FA9
+0030A:  BCF    FA6.6
+0030C:  BCF    FA6.7
+0030E:  BSF    FA6.0
+00310:  MOVF   FA8,W
+00312:  BTFSC  0F.7
+00314:  BSF    FF2.7
+00316:  MOVWF  09
+.................... 	set_off_all_pines(); 
+00318:  BRA    00CE
+.................... 	delay_ms(1000); 
+0031A:  MOVLW  04
+0031C:  MOVWF  0F
+0031E:  MOVLW  FA
+00320:  MOVWF  10
+00322:  RCALL  0140
+00324:  DECFSZ 0F,F
+00326:  BRA    031E
+.................... } 
+00328:  GOTO   0726 (RETURN)
+....................  
+.................... void print_setup(){ 
+.................... 	printf(":%u:%u:%u:%u:%u",voltage,time_of_chart,charts,current_chart,run_time); 
+*
+00412:  MOVLW  3A
+00414:  BTFSS  F9E.4
+00416:  BRA    0414
+00418:  MOVWF  FAD
+0041A:  MOVFF  0A,10
+0041E:  MOVLW  1B
+00420:  MOVWF  11
+00422:  RCALL  03A6
+00424:  MOVLW  3A
+00426:  BTFSS  F9E.4
+00428:  BRA    0426
+0042A:  MOVWF  FAD
+0042C:  MOVFF  08,10
+00430:  MOVLW  1B
+00432:  MOVWF  11
+00434:  RCALL  03A6
+00436:  MOVLW  3A
+00438:  BTFSS  F9E.4
+0043A:  BRA    0438
+0043C:  MOVWF  FAD
+0043E:  MOVFF  0B,10
+00442:  MOVLW  1B
+00444:  MOVWF  11
+00446:  RCALL  03A6
+00448:  MOVLW  3A
+0044A:  BTFSS  F9E.4
+0044C:  BRA    044A
+0044E:  MOVWF  FAD
+00450:  MOVFF  0C,10
+00454:  MOVLW  1B
+00456:  MOVWF  11
+00458:  RCALL  03A6
+0045A:  MOVLW  3A
+0045C:  BTFSS  F9E.4
+0045E:  BRA    045C
+00460:  MOVWF  FAD
+00462:  MOVFF  09,10
+00466:  MOVLW  1B
+00468:  MOVWF  11
+0046A:  RCALL  03A6
+.................... } 
+0046C:  GOTO   05C0 (RETURN)
+....................  
+.................... short comunication(){ 
+.................... 	if (kbhit()){ 
+00470:  BTFSS  F9E.5
+00472:  BRA    05DA
+.................... 		char value = getc(); 
+00474:  BTFSS  F9E.5
+00476:  BRA    0474
+00478:  MOVFF  FAE,0F
+.................... 		if (value == 'i'){ 
+0047C:  MOVF   0F,W
+0047E:  SUBLW  69
+00480:  BTFSS  FD8.2
+00482:  BRA    05B8
+.................... 				putc('i'); 
+00484:  MOVLW  69
+00486:  RCALL  0376
+.................... 				while (kbhit()); 
+00488:  BTFSC  F9E.5
+0048A:  BRA    0488
+.................... 				voltage = getc(); 
+0048C:  BTFSS  F9E.5
+0048E:  BRA    048C
+00490:  MOVFF  FAE,0A
+.................... 				time_of_chart = getc(); 
+00494:  BTFSS  F9E.5
+00496:  BRA    0494
+00498:  MOVFF  FAE,08
+.................... 				charts = getc(); 
+0049C:  BTFSS  F9E.5
+0049E:  BRA    049C
+004A0:  MOVFF  FAE,0B
+.................... 				run_time = getc(); 
+004A4:  BTFSS  F9E.5
+004A6:  BRA    04A4
+004A8:  MOVFF  FAE,09
+.................... 				putc('f'); 
+004AC:  MOVLW  66
+004AE:  RCALL  0376
+.................... 				write_eeprom(0,1); 
+004B0:  CLRF   FAA
+004B2:  CLRF   FA9
+004B4:  MOVLW  01
+004B6:  MOVWF  FA8
+004B8:  BCF    FA6.6
+004BA:  BCF    FA6.7
+004BC:  BSF    FA6.2
+004BE:  MOVF   FF2,W
+004C0:  MOVWF  00
+004C2:  BCF    FF2.7
+004C4:  MOVLB  F
+004C6:  MOVLW  55
+004C8:  MOVWF  FA7
+004CA:  MOVLW  AA
+004CC:  MOVWF  FA7
+004CE:  BSF    FA6.1
+004D0:  BTFSC  FA6.1
+004D2:  BRA    04D0
+004D4:  BCF    FA6.2
+004D6:  MOVF   00,W
+004D8:  IORWF  FF2,F
+.................... 				if (voltage > 10) voltage = 10; 
+004DA:  MOVF   0A,W
+004DC:  SUBLW  0A
+004DE:  BC    04E4
+004E0:  MOVLW  0A
+004E2:  MOVWF  0A
+.................... 				write_eeprom(1,voltage);  //max voltage 
+004E4:  CLRF   FAA
+004E6:  MOVLW  01
+004E8:  MOVWF  FA9
+004EA:  MOVFF  0A,FA8
+004EE:  BCF    FA6.6
+004F0:  BCF    FA6.7
+004F2:  BSF    FA6.2
+004F4:  MOVFF  FF2,00
+004F8:  BCF    FF2.7
+004FA:  MOVLW  55
+004FC:  MOVWF  FA7
+004FE:  MOVLW  AA
+00500:  MOVWF  FA7
+00502:  BSF    FA6.1
+00504:  BTFSC  FA6.1
+00506:  BRA    0504
+00508:  BCF    FA6.2
+0050A:  MOVF   00,W
+0050C:  IORWF  FF2,F
+.................... 				write_eeprom(2,time_of_chart); // time of each chart 
+0050E:  CLRF   FAA
+00510:  MOVLW  02
+00512:  MOVWF  FA9
+00514:  MOVFF  08,FA8
+00518:  BCF    FA6.6
+0051A:  BCF    FA6.7
+0051C:  BSF    FA6.2
+0051E:  MOVFF  FF2,00
+00522:  BCF    FF2.7
+00524:  MOVLW  55
+00526:  MOVWF  FA7
+00528:  MOVLW  AA
+0052A:  MOVWF  FA7
+0052C:  BSF    FA6.1
+0052E:  BTFSC  FA6.1
+00530:  BRA    052E
+00532:  BCF    FA6.2
+00534:  MOVF   00,W
+00536:  IORWF  FF2,F
+.................... 				write_eeprom(3,charts); // number of charts 
+00538:  CLRF   FAA
+0053A:  MOVLW  03
+0053C:  MOVWF  FA9
+0053E:  MOVFF  0B,FA8
+00542:  BCF    FA6.6
+00544:  BCF    FA6.7
+00546:  BSF    FA6.2
+00548:  MOVFF  FF2,00
+0054C:  BCF    FF2.7
+0054E:  MOVLW  55
+00550:  MOVWF  FA7
+00552:  MOVLW  AA
+00554:  MOVWF  FA7
+00556:  BSF    FA6.1
+00558:  BTFSC  FA6.1
+0055A:  BRA    0558
+0055C:  BCF    FA6.2
+0055E:  MOVF   00,W
+00560:  IORWF  FF2,F
+.................... 				write_eeprom(4,0); // current chart -> start in 0 
+00562:  CLRF   FAA
+00564:  MOVLW  04
+00566:  MOVWF  FA9
+00568:  CLRF   FA8
+0056A:  BCF    FA6.6
+0056C:  BCF    FA6.7
+0056E:  BSF    FA6.2
+00570:  MOVFF  FF2,00
+00574:  BCF    FF2.7
+00576:  MOVLW  55
+00578:  MOVWF  FA7
+0057A:  MOVLW  AA
+0057C:  MOVWF  FA7
+0057E:  BSF    FA6.1
+00580:  BTFSC  FA6.1
+00582:  BRA    0580
+00584:  BCF    FA6.2
+00586:  MOVF   00,W
+00588:  IORWF  FF2,F
+.................... 				write_eeprom(5,run_time); // time of work of tht device 
+0058A:  CLRF   FAA
+0058C:  MOVLW  05
+0058E:  MOVWF  FA9
+00590:  MOVFF  09,FA8
+00594:  BCF    FA6.6
+00596:  BCF    FA6.7
+00598:  BSF    FA6.2
+0059A:  MOVFF  FF2,00
+0059E:  BCF    FF2.7
+005A0:  MOVLW  55
+005A2:  MOVWF  FA7
+005A4:  MOVLW  AA
+005A6:  MOVWF  FA7
+005A8:  BSF    FA6.1
+005AA:  BTFSC  FA6.1
+005AC:  BRA    05AA
+005AE:  BCF    FA6.2
+005B0:  MOVF   00,W
+005B2:  IORWF  FF2,F
+.................... 		}else if (value == 'p'){ 
+005B4:  BRA    05D2
+005B6:  MOVLB  0
+005B8:  MOVF   0F,W
+005BA:  SUBLW  70
+005BC:  BNZ   05C2
+.................... 			print_setup(); 
+005BE:  BRA    0412
+.................... 		}else if (value == 'd'){ 
+005C0:  BRA    05D0
+005C2:  MOVF   0F,W
+005C4:  SUBLW  64
+005C6:  BNZ   05D0
+.................... 				putc('d'); 
+005C8:  MOVLW  64
+005CA:  RCALL  0376
+.................... 				while (kbhit()); 
+005CC:  BTFSC  F9E.5
+005CE:  BRA    05CC
+005D0:  MOVLB  F
+.................... 				//Enviar datos	 
+.................... 		} 
+.................... 		return true; 
+005D2:  MOVLW  01
+005D4:  MOVWF  01
+005D6:  BRA    05E0
+005D8:  MOVLB  0
+.................... 	} 
+.................... 	return false;	 
+005DA:  MOVLW  00
+005DC:  MOVWF  01
+005DE:  MOVLB  F
+.................... } 
+005E0:  MOVLB  0
+005E2:  GOTO   0748 (RETURN)
+....................  
+.................... short stop (){ 
+.................... 	if (kbhit()){ 
+.................... 		int value = getc(); 
+.................... 		if (value == 's'){ 
+.................... 			putc('y'); 
+.................... 			return true; 
+.................... 		} 
+.................... 	} 
+.................... 	return false; 
+.................... } 
+....................  
+.................... long get_value_adc(){ 
+005E6:  CLRF   12
+005E8:  CLRF   11
+005EA:  CLRF   10
+005EC:  CLRF   0F
+005EE:  CLRF   14
+005F0:  MOVLW  80
+005F2:  MOVWF  13
+.................... 	long long value = 0; 
+.................... 	long i=128; 
+.................... 	while (i--){ 
+005F4:  MOVFF  14,03
+005F8:  MOVF   13,W
+005FA:  BTFSC  FD8.2
+005FC:  DECF   14,F
+005FE:  DECF   13,F
+00600:  IORWF  03,W
+00602:  BZ    0622
+.................... 		delay_us(20); 
+00604:  MOVLW  35
+00606:  MOVWF  00
+00608:  DECFSZ 00,F
+0060A:  BRA    0608
+.................... 		value+= read_adc(); 
+0060C:  BSF    FC2.1
+0060E:  BTFSC  FC2.1
+00610:  BRA    060E
+00612:  MOVF   FC3,W
+00614:  ADDWF  0F,F
+00616:  MOVF   FC4,W
+00618:  ADDWFC 10,F
+0061A:  MOVLW  00
+0061C:  ADDWFC 11,F
+0061E:  ADDWFC 12,F
+.................... 	} 
+00620:  BRA    05F4
+.................... 	value = value>>8; 
+00622:  MOVFF  10,0F
+00626:  MOVFF  11,10
+0062A:  MOVFF  12,11
+0062E:  CLRF   12
+.................... 	return (long)value; 
+00630:  MOVFF  0F,01
+00634:  MOVFF  10,02
+.................... } 
+00638:  GOTO   074A (RETURN)
+....................  
+.................... void dac(long start_value,long end_value, long delay){ 
+.................... 	_setup_adc();	 
+.................... 	samples = malloc(100*8); 
+.................... 	short scale = 1; 
+.................... 	set_cin1(on); 
+.................... 	set_cin2(on); 
+.................... 	set_cin3(scale); 
+.................... 	set_dac_wr(on); 
+.................... 	set_dac_clr(on); 
+.................... 	set_dac_wr(off); 
+.................... 	delay_ms(100); 
+.................... 	signed long i; 
+.................... 	long long take_sample = 0; 
+.................... 	int nsample = 0; 
+.................... 	int take_sample_2 = (end_value-start_value-1)/59; 
+.................... 	long sample = get_value_adc(); 
+.................... 	*(samples + nsample) = ((sample>>3)&(scale<<7)); 
+.................... 	nsample++; 
+.................... 	for (i = start_value; i <= end_value; i=i+1){ 
+.................... 		long dac_pin = 1; 
+.................... 		int pin; 
+.................... 		for (pin = 0; pin < 16; dac_pin*=2, ++pin){ 
+.................... 			output_bit(dac_pins[pin],dac_pin&i); 
+.................... 		} 
+.................... 		long value = read_adc(); 
+.................... 		if (scale == 0 && value <= 15) { scale=1;set_cin3(1);delay_us(delay); i=i+1; }//switchx1 
+.................... 		if (scale == 1 && value >= 800){ scale=0;set_cin3(0);delay_us(delay); i=i+1; }//switchx10 
+.................... 		delay_ms(delay); 
+.................... 		//printf(":%Lu",value); 
+.................... 		if (take_sample >= take_sample_2){ 
+.................... 		  sample = get_value_adc(); 
+.................... 			*(samples + nsample) = ((sample>>3)&(scale<<7)); 
+.................... 			nsample++; 
+.................... 			take_sample = 0; 
+.................... 		} 
+.................... 		take_sample++; 
+.................... 		if(i == end_value){ break;} 
+.................... 	} 
+.................... 	*(samples + nsample) = get_value_adc(); 
+.................... 	set_off_all_pines(); 
+.................... 	setup_adc(ADC_OFF); 
+.................... } 
+....................  
+.................... void set_in_memory(long factor){ 
+.................... 		long start_position = 100 ; 
+.................... 		free(samples); 
+.................... } 
+....................  
+.................... short run (){ 
+.................... 	long unit_run_time = (run_time*60)/(charts - 1); //m 
+.................... 	long current_run_time = 0; 
+.................... 	while (current_chart < charts){ 
+.................... 		while ((current_run_time/60.0)/unit_run_time >= 1.0){ 
+.................... 			delay_ms(1000); 
+.................... 			++current_run_time; 
+.................... 			if (stop()) return false; 
+.................... 		} 
+.................... 		current_run_time = time_of_chart*60+1; 
+.................... 		signed long start_dac = dac_min; 
+.................... 		long steps = dac_max-dac_min+1; 
+.................... 		signed long end_dac = ((steps)/10.0)*voltage + dac_min; 
+.................... 		long long delay = time_of_chart*6*voltage; 
+.................... 		 
+.................... 		dac(start_dac,end_dac, delay); 
+.................... 		set_in_memory(current_chart++); 
+.................... 		write_eeprom(4,current_chart); 
+.................... 	} 
+.................... 	return true; 
+.................... }  
+....................  
+.................... void set_pin(long i){ 
+.................... 		long dac_pin = 1; 
+.................... 		int pin; 
+.................... 		for (pin = 0; pin < 16; dac_pin*=2, ++pin){ 
+.................... 			output_bit(dac_pins[pin],dac_pin&i); 
+.................... 		}	 
+.................... } 
+....................  
+....................  
+.................... void main() { 
+*
+006E2:  CLRF   FF8
+006E4:  BCF    FD0.7
+006E6:  CLRF   05
+006E8:  MOVLW  18
+006EA:  MOVWF  04
+006EC:  MOVLW  0C
+006EE:  MOVWF  19
+006F0:  MOVLW  E4
+006F2:  MOVWF  18
+006F4:  CLRF   1B
+006F6:  CLRF   1A
+006F8:  CLRF   FEA
+006FA:  CLRF   FE9
+006FC:  MOVLW  70
+006FE:  MOVWF  FD3
+00700:  MOVLW  40
+00702:  MOVWF  F9B
+00704:  MOVF   FD3,W
+00706:  BSF    FB8.3
+00708:  MOVLW  40
+0070A:  MOVWF  FAF
+0070C:  MOVLW  03
+0070E:  MOVWF  FB0
+00710:  MOVLW  A6
+00712:  MOVWF  FAC
+00714:  MOVLW  90
+00716:  MOVWF  FAB
+00718:  MOVF   FC1,W
+0071A:  ANDLW  C0
+0071C:  IORLW  0F
+0071E:  MOVWF  FC1
+00720:  MOVLW  07
+00722:  MOVWF  FB4
+.................... 	init(); 
+00724:  BRA    0166
+.................... 	//if (read_eeprom(0) == 1)	s = run(); 
+.................... 	set_dac_wr(on); 
+00726:  MOVLW  01
+00728:  MOVWF  12
+0072A:  RCALL  00C0
+.................... 	set_dac_clr(on); 
+0072C:  MOVLW  01
+0072E:  MOVWF  12
+00730:  RCALL  00B2
+.................... 	set_dac_wr(off); 
+00732:  CLRF   12
+00734:  RCALL  00C0
+.................... 	delay_ms(1000); 
+00736:  MOVLW  04
+00738:  MOVWF  0F
+0073A:  MOVLW  FA
+0073C:  MOVWF  10
+0073E:  RCALL  0140
+00740:  DECFSZ 0F,F
+00742:  BRA    073A
+.................... 	_setup_adc(); 
+00744:  BRA    034C
+.................... 	//short result = run(); 
+.................... 	while (1){ 
+.................... 	 	comunication (); 
+00746:  BRA    0470
+.................... 		long i = get_value_adc(); 
+00748:  BRA    05E6
+0074A:  MOVFF  02,0E
+0074E:  MOVFF  01,0D
+.................... 		printf(":%Lu",i); 
+00752:  MOVLW  3A
+00754:  BTFSS  F9E.4
+00756:  BRA    0754
+00758:  MOVWF  FAD
+0075A:  MOVLW  10
+0075C:  MOVWF  FE9
+0075E:  MOVFF  0E,10
+00762:  MOVFF  0D,0F
+00766:  BRA    063C
+.................... 	} 
+00768:  BRA    0746
+.................... } 
+0076A:  SLEEP 
+
+Configuration Fuses:
+   Word  1: C800   IESO FCMEN INTRC_IO
+   Word  2: 1E1E   BROWNOUT NOWDT BORV21 PUT WDT32768
+   Word  3: 8600   PBADEN LPT1OSC MCLR
+   Word  4: 00B1   STVREN NODEBUG NOLVP NOXINST BBSIZ4K
+   Word  5: C00F   NOPROTECT NOCPD NOCPB
+   Word  6: E00F   NOWRT NOWRTD NOWRTC NOWRTB
+   Word  7: 400F   NOEBTR NOEBTRB

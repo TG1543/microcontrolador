@@ -1,0 +1,65 @@
+
+ROM used: 1900 (3%)
+          1900 (3%) including unused fragments
+
+          2 Average locations per line
+          7 Average locations per statement
+
+RAM used: 14 (0%) at main() level
+          24 (1%) worst case
+
+Stack used: 4 worst case (out of 31 total available)
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+  244   157  56  main.c
+  461     0   0  ..\..\..\..\..\..\Program Files\PICC\devices\18f4680.h
+  229   111  40  ..\..\..\..\..\..\Program Files\PICC\drivers\stdlibm.h
+   28     0   0  ..\..\..\..\..\..\Program Files\PICC\drivers\stddef.h
+   81    13   5  ..\..\..\..\..\..\Program Files\PICC\drivers\memmgmt.c
+----- -----
+ 1043   281 Total
+
+Page ROM  %  RAM   Vol Diff  Functions:
+---- --- --- ---   --- ----  ----------
+0     38   1   1             @delay_ms1
+0     32   1   1             @delay_us1
+0      8   0   0             @PUTCHARI_BIU_1
+0     48   1   0             @const121
+0     16   0   1    35  1.4  set_cin1
+0     16   0   1    35  1.4  set_cin2
+0     16   0   1    35  1.4  set_cin3
+0     16   0   1    35  1.4  set_dac_a0
+0     14   0   1    35  1.4  set_dac_clr
+0     14   0   1    35  1.4  set_dac_wr
+0    114   3   5   327  4.7  set_off_all_pines
+0     62   2   6             @WRITEBITA
+0     42   1   0    67  1.2  _setup_adc
+0    454  12   2   603  3.4  init
+0     94   2   0    59  1.6  print_setup
+0     40   1   3             @DIV88
+0    108   3   2             @PRINTF_U_9600_31766_31767
+0    374  10   0   774  5.3  comunication
+0     86   2   7   176  4.8  get_value_adc
+0    138   4   1   204  2.6  MAIN
+0    166   4   9             @PRINTF_LU_9600_31766_31767
+
+Program metrics:
+    Functions               13
+    Statements              281
+    Comments                257
+    Volume (V)              3884
+    Difficilty (D)          32.1
+    Effort to implement (E) 124627
+    Time to implement (T)   1 hours, 55 minutes
+    Est Delivered Bugs (B)  1
+    Cyclomatic Complexity   7
+    Maintainability (MI)    120
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00002     4  0  
+00004-0FFFE  1896  63636  
+
+
+
